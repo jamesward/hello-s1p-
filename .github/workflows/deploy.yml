@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '1.8'
-      - run: ./mvnw compile jib:build -Djib.to.image=gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
+      - run: ./mvnw compile jib:build -Djib.to.credHelper=gcr -Djib.to.image=gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
 
       - name: Prepare service manifest
         run: sed -e 's/PROJECT_ID/${{ secrets.GCP_PROJECT }}/g; s/APP_NAME/hello-s1p/g; s/COMMIT_SHA/${{ github.sha }}/g' hello-s1p/.github/template.yaml > hello-s1p/.github/service.yaml
