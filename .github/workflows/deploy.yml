@@ -1,10 +1,6 @@
-name: Knative service deployment using GitHUb Actions
+name: Deploy
 
-on:
-  release:
-    types: [created]
-    tags:
-      - release-v*
+on: [push]
 
 jobs:
   deploy:
