@@ -26,10 +26,16 @@ jobs:
           java-version: '1.8'
       - run: ./mvnw compile jib:dockerBuild -Djib.to.image=gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
 
+      - name: Push image to GCR
+        uses: actions/gcloud/cli@master
+        with:
+          entrypoint: sh
+          args: -c "docker push gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}"
+
       - name: Prepare service manifest
-        run: sed -e 's/PROJECT_ID/${{ secrets.GCP_PROJECT }}/g; s/APP_NAME/hello-s1p/g; s/COMMIT_SHA/${{ github.sha }}/g' hello-s1p/.github/template.yaml > hello-s1p/.github/service.yaml
+        run: sed -e 's/PROJECT_ID/${{ secrets.GCP_PROJECT }}/g; s/APP_NAME/hello-s1p/g; s/COMMIT_SHA/${{ github.sha }}/g' .github/template.yaml > .github/service.yaml
 
       - name: Install kubectl and deploy service
         uses: actions/gcloud/cli@master
         with:
-          args: "components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project ${{ secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f hello-s1p/.github/service.yaml -n ${{ secrets.CLUSTER_NS }}"
+          args: "components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project ${{ secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}"
