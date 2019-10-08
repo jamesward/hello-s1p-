@@ -9,4 +9,8 @@ spec:
         - image: gcr.io/PROJECT_ID/APP_NAME:COMMIT_SHA
           env:
             - name: OKTA_OAUTH2_CLIENT_SECRET
-              value: CLIENTSECRET
+              value: OIDC_CLIENT_SECRET
+            - name: OKTA_OAUTH2_CLIENT_ID
+              value: OIDC_CLIENT_ID
+            - name: OKTA_OAUTH2_ISSUER
+              value: OIDC_ISSUER

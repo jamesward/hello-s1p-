@@ -33,7 +33,7 @@ jobs:
           args: -c "docker push gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}"
 
       - name: Prepare service manifest
-        run: sed -e 's/PROJECT_ID/${{ secrets.GCP_PROJECT }}/g; s/APP_NAME/hello-s1p/g; s/COMMIT_SHA/${{ github.sha }}/g; s/CLIENTSECRET/${{ github.CLIENTSECRET }}/g;' .github/template.yaml > .github/service.yaml
+        run: sed -e 's/PROJECT_ID/${{ secrets.GCP_PROJECT }}/g; s/APP_NAME/hello-s1p/g; s/COMMIT_SHA/${{ github.sha }}/g; s/OIDC_CLIENT_SECRET/${{ github.OIDC_CLIENT_SECRET }}/g; s/OIDC_CLIENT_ID/${{ github.OIDC_CLIENT_ID }}/g; s/OIDC_ISSUER/${{ github.OIDC_ISSUER }}/g;' .github/template.yaml > .github/service.yaml
 
       - name: Install kubectl and deploy service
         uses: actions/gcloud/cli@master
