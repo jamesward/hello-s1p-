@@ -19,7 +19,7 @@ repositories {
     maven("https://repo.spring.io/milestone")
 }
 
-jib.container.mainClass = "demo.App"
+jib.container.mainClass = "demo.AppKt"
 
 dependencies {
     implementation("org.springframework.fu:spring-fu-kofu:0.2")
