@@ -28,7 +28,7 @@ val app = application(WebApplicationType.REACTIVE) {
     r2dbcH2()
 
     webFlux {
-        port = System.getenv("PORT").toIntOrNull() ?: 8080
+        port = System.getenv("PORT")?.toIntOrNull() ?: 8080
 
         coRouter {
             val repository = ref<BarRepository>()
