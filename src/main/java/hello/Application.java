@@ -2,8 +2,11 @@ package hello;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @SpringBootApplication
 @RestController
@@ -14,13 +17,8 @@ public class Application {
   }
 
   @RequestMapping("/")
-  public String index() {
-    String revision = System.getenv("K_REVISION");
-    if (revision == null) {
-      revision = "(unknown version)";
-    }
-
-    return String.format("hello, world - %s", revision);
+  public String index(@AuthenticationPrincipal OidcUser user) {
+    return String.format("hello, %s", user.getFullName());
   }
 
 }
