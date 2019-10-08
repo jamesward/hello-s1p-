@@ -36,9 +36,9 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT }}
           APP_NAME: hello-s1p
-        run: envsubst < .github/template.yaml > .github/service.yaml
+        run: envsubst < .github/template.yml > .github/service.yml
 
       - name: Install kubectl and deploy service
         uses: actions/gcloud/cli@master
         with:
-          args: "components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project ${{ secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yaml -n ${{ secrets.CLUSTER_NS }}"
+          args: "components install kubectl --quiet && gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --project ${{ secrets.GCP_PROJECT }} --zone ${{ secrets.CLUSTER_ZONE }} && kubectl apply -f .github/service.yml -n ${{ secrets.CLUSTER_NS }}"
