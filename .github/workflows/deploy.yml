@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '1.8'
-      - run: ./gradlew jib --console=plain -Djib.to.credHelper=gcr --image=gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
+      - run: ./gradlew jib --console=plain -Djib.to.credHelper=gcloud --image=gcr.io/${{ secrets.GCP_PROJECT }}/hello-s1p:${{ github.sha }}
 
       - name: Push image to GCR
         uses: actions/gcloud/cli@master
