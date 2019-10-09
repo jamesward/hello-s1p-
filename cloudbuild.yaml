@@ -1,18 +1,18 @@
 steps:
 - name: 'gcr.io/cloud-builders/javac:8'
   entrypoint: './mvnw'
-  args: ['--no-transfer-progress', 'compile', 'jib:dockerBuild', '-Djib.to.image=gcr.io/$PROJECT_ID/hello-s1p:$COMMIT_SHA']
+  args: ['--no-transfer-progress', 'compile', 'jib:build', '-Djib.to.image=gcr.io/$PROJECT_ID/hello-s1p:$COMMIT_SHA']
 
-- name: 'gcr.io/cloud-builders/gcloud'
+- name: 'bhgedigital/envsubst'
   entrypoint: '/bin/sh'
-  args: ['envsubst < .cloudbuild/template.yml > .cloudbuild/service.yml']
+  args: ['-c', 'envsubst < .cloudbuild/template.yml > .cloudbuild/service.yml']
   env:
     - 'APP_NAME=hello-s1p'
+    - 'PROJECT_ID=$PROJECT_ID'
+    - 'COMMIT_SHA=$COMMIT_SHA'
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', '.cloudbuild/service.yaml']
+  args: ['apply', '-f', '.cloudbuild/service.yml']
   env:
     - 'CLOUDSDK_COMPUTE_ZONE=us-central1-f'
     - 'CLOUDSDK_CONTAINER_CLUSTER=s1p'
-
-images: ['gcr.io/$PROJECT_ID/hello-s1p']
